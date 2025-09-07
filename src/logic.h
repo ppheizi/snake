@@ -31,5 +31,6 @@ void apple_appierence(struct apple *apple, struct snake *snake);
 struct location looking_for_free_position(struct snake *snake);
 int position_is_free(int i, int j, struct snake *snake);
 int snake_eats_apple(struct snake *snake, struct apple *apple, int *score);
+int snake_collision(struct snake *snake);
 
 #endif

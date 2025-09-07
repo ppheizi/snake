@@ -20,6 +20,7 @@ void game() {
     apple.coords.j = -1;
     apple.last_spawn = time(NULL);
     int game_over = 0;
+    int collision = 0;
 
     while (!game_over) {
         int move = getch();
@@ -33,6 +34,10 @@ void game() {
         clear();
         draw_borders(score);
         snake_move(&snake);
+        collision = snake_collision(&snake);
+        if (collision == 1) {
+            game_over = 1;
+        }
         apple_appierence(&apple, &snake);
         screen_wrapping(&snake);
         if (snake_eats_apple(&snake, &apple, &score)) {
@@ -168,4 +173,15 @@ int snake_eats_apple(struct snake *snake, struct apple *apple, int *score) {
         flag = 1;
     }
     return flag;
+}
+
+// определяет, было ли столкновение змеи с собственным телом
+int snake_collision(struct snake *snake) {
+    int collision = 0;
+    for (int i = 1; i < snake->length && !collision; i++) {
+        if (snake->body[i].i == snake->body[0].i && snake->body[i].j == snake->body[0].j) {
+            collision = 1;
+        }
+    }
+    return collision;
 }
